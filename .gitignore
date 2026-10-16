@@ -1,0 +1,42 @@
+# Gradle
+.gradle/
+**/build/
+
+# Java
+*.class
+*.war
+*.ear
+hs_err_pid*
+.attach_pid*
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+
+# Local configuration
+local.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# libGDX generated files
+/assets/assets.txt
+
+# GraalVM native-image generated config
+**/resource-config.json
