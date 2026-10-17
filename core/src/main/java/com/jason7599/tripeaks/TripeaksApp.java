@@ -3,7 +3,7 @@ package com.jason7599.tripeaks;
 import com.badlogic.gdx.Screen;
 import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.controller.GameController;
-import com.jason7599.tripeaks.view.MainMenuScreen;
+import com.jason7599.tripeaks.view.menu.MainMenuScreen;
 
 public class TripeaksApp extends com.badlogic.gdx.Game {
 

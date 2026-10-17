@@ -5,7 +5,7 @@ import com.jason7599.tripeaks.game.Game;
 import com.jason7599.tripeaks.game.Move;
 import com.jason7599.tripeaks.model.Slot;
 import com.jason7599.tripeaks.model.TableauStructure;
-import com.jason7599.tripeaks.view.GameView;
+import com.jason7599.tripeaks.view.game.GameView;
 
 import java.util.Comparator;
 import java.util.List;

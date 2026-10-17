@@ -1,4 +1,4 @@
-package com.jason7599.tripeaks.view;
+package com.jason7599.tripeaks.view.tableau;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jason7599.tripeaks.model.Slot;
 import com.jason7599.tripeaks.model.Tableau;
 import com.jason7599.tripeaks.model.TableauStructure;
+import com.jason7599.tripeaks.view.card.CardView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,21 +15,13 @@ import java.util.function.Consumer;
 
 public class TableauView extends Group {
 
-    private static final float HALF = CardView.WIDTH / 2;
-    private static final float ROW_STEP = CardView.HEIGHT * 0.5f;
-    public static final float WIDTH = 18 * HALF + CardView.WIDTH;
-    public static final float HEIGHT = 3 * ROW_STEP + CardView.HEIGHT;
-
     private final Map<Slot, CardView> cards = new HashMap<>();
 
     public TableauView(Consumer<Slot> onSlotClicked) {
-        setSize(WIDTH, HEIGHT);
+        TableauUI.build(this);
 
         for (Slot s : TableauStructure.ALL_SLOTS) {   // row 0 first = drawn underneath
             CardView cv = new CardView();
-            cv.setPosition(TableauStructure.gridX(s) * HALF,
-                HEIGHT - CardView.HEIGHT - s.row() * ROW_STEP);  // y goes UP
-
             cv.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
@@ -37,7 +30,7 @@ public class TableauView extends Group {
             });
 
             cards.put(s, cv);
-            addActor(cv);
+            TableauUI.addCard(this, cv, s);
         }
     }
 

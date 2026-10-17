@@ -1,9 +1,8 @@
-package com.jason7599.tripeaks.view;
+package com.jason7599.tripeaks.controller;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.jason7599.tripeaks.controller.GameCallbacks;
 
 public class GameInputListener extends InputListener {
 
