@@ -3,9 +3,13 @@ package com.jason7599.tripeaks.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.controller.GameCallbacks;
 import com.jason7599.tripeaks.game.Game;
 import com.jason7599.tripeaks.model.Card;
@@ -26,31 +30,46 @@ public class GameView extends ScreenAdapter {
     private final ControlBar controlBar;
 
     public GameView(GameCallbacks callbacks) {
+        final float playerX = WIDTH / 2 - CardView.WIDTH / 2;
+
         tableauView = new TableauView(callbacks::onSlotClicked);
         tableauView.setPosition(
             (WIDTH - TableauView.WIDTH) / 2,
             HEIGHT - 40 - TableauView.HEIGHT
         );
+        stage.addActor(tableauView);
 
         playerCard = new CardView();
         playerCard.setFaceUp(true);
-
-        final float playerX = WIDTH / 2 - CardView.WIDTH / 2;
         playerCard.setPosition(playerX, PILE_Y);
+        stage.addActor(playerCard);
 
         stockView = new StockView(Game.INITIAL_STOCK_SIZE, callbacks::onStockClicked);
         stockView.setPosition(playerX + CardView.WIDTH + PILE_SPACING, PILE_Y);
+        stage.addActor(stockView);
 
         controlBar = new ControlBar(callbacks);
         controlBar.setPosition(
             (WIDTH - controlBar.getWidth()) / 2,
             20
         );
-
-        stage.addActor(tableauView);
-        stage.addActor(playerCard);
-        stage.addActor(stockView);
         stage.addActor(controlBar);
+
+        TextButton exitButton = new TextButton(
+            "Exit", Assets.skin(), "game"
+        );
+        exitButton.setSize(100, 42);
+        exitButton.setPosition(
+            WIDTH - exitButton.getWidth() - 24,
+            HEIGHT - exitButton.getHeight() - 24
+        );
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                callbacks.onExit();
+            }
+        });
+        stage.addActor(exitButton);
 
         stage.getRoot().addCaptureListener(
             new GameInputListener(callbacks)

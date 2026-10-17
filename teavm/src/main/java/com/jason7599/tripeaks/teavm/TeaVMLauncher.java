@@ -2,7 +2,7 @@ package com.jason7599.tripeaks.teavm;
 
 import com.github.xpenatan.gdx.teavm.backends.web.WebApplicationConfiguration;
 import com.github.xpenatan.gdx.teavm.backends.web.WebApplication;
-import com.jason7599.tripeaks.TripeaksGame;
+import com.jason7599.tripeaks.TripeaksApp;
 
 /**
  * Launches the TeaVM/HTML application.
@@ -16,7 +16,7 @@ public class TeaVMLauncher {
         //// If width and height are both 0, then the app will use all available space.
         config.width = 0;
         config.height = 0;
-        
-        new WebApplication(new TripeaksGame(), config);
+
+        new WebApplication(new TripeaksApp(), config);
     }
 }

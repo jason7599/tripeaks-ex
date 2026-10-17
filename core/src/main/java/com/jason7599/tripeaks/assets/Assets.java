@@ -8,44 +8,35 @@ import com.jason7599.tripeaks.ui.Theme;
 /** App-wide resources */
 public final class Assets {
 
-    private Assets() {}
-
-    private static boolean init;
     private static CardSprites cards;
-    private static BitmapFont font;
     private static Skin skin;
 
+    private Assets() {}
+
     public static void load() {
-        if (init) return;
+        if (skin != null) return;
 
         cards = new CardSprites();
-
-        font = new BitmapFont(); // libGDX builtin default font
-        font.getRegion().getTexture().setFilter(
-            Texture.TextureFilter.Linear,
-            Texture.TextureFilter.Linear
-        );
-        font.getData().setScale(1.5f);
-
-        skin = Theme.create(font());
-
-        init = true;
+        skin = Theme.create();
     }
 
-    public static CardSprites cards() { return cards; }
-    public static BitmapFont font() { return font; }
-    public static Skin skin() { return skin; }
+    public static CardSprites cards() {
+        return cards;
+    }
 
-    public static synchronized void dispose() {
-        if (!init) return;
+    public static Skin skin() {
+        return skin;
+    }
 
-        if (cards != null) cards.dispose();
-        if (font != null) font.dispose();
+    public static BitmapFont font() {
+        return skin.getFont("ui-font");
+    }
+
+    public static void dispose() {
         if (skin != null) skin.dispose();
-        cards = null;
-        font = null;
-        skin = null;
+        if (cards != null) cards.dispose();
 
-        init = false;
+        skin = null;
+        cards = null;
     }
 }

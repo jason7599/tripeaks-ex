@@ -1,0 +1,229 @@
+{
+  "com.badlogic.gdx.graphics.Color": {
+    "ink": {
+      "hex": "EAF2F7FF"
+    },
+    "muted": {
+      "hex": "A5B8C7FF"
+    },
+    "quiet": {
+      "hex": "647D8DFF"
+    },
+    "canvas": {
+      "hex": "0B1820FF"
+    },
+    "surface": {
+      "hex": "132731FF"
+    },
+    "surfaceRaised": {
+      "hex": "1B3440FF"
+    },
+    "primary": {
+      "hex": "277A80FF"
+    },
+    "primaryHover": {
+      "hex": "319399FF"
+    },
+    "primaryDown": {
+      "hex": "1B5C62FF"
+    },
+    "primaryDisabled": {
+      "hex": "29444AFF"
+    },
+    "secondary": {
+      "hex": "29414DFF"
+    },
+    "secondaryHover": {
+      "hex": "355665FF"
+    },
+    "secondaryDown": {
+      "hex": "1C303AFF"
+    },
+    "gold": {
+      "hex": "E9BD71FF"
+    },
+    "goldHover": {
+      "hex": "F6CF8DFF"
+    },
+    "goldDown": {
+      "hex": "C69A50FF"
+    },
+    "darkText": {
+      "hex": "192931FF"
+    },
+    "badge": {
+      "hex": "3A3430FF"
+    },
+    "badgeText": {
+      "hex": "F6D49CFF"
+    },
+    "stock": {
+      "hex": "223B47FF"
+    },
+    "danger": {
+      "hex": "A45058FF"
+    },
+    "dangerHover": {
+      "hex": "BF656FFF"
+    },
+    "dangerDown": {
+      "hex": "793940FF"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "panel-bg": {
+      "name": "rounded-16",
+      "color": "surface"
+    },
+    "panel-raised": {
+      "name": "rounded-16",
+      "color": "surfaceRaised"
+    },
+    "btn-primary-up": {
+      "name": "rounded-12",
+      "color": "primary"
+    },
+    "btn-primary-over": {
+      "name": "rounded-12",
+      "color": "primaryHover"
+    },
+    "btn-primary-down": {
+      "name": "rounded-12",
+      "color": "primaryDown"
+    },
+    "btn-primary-disabled": {
+      "name": "rounded-12",
+      "color": "primaryDisabled"
+    },
+    "btn-secondary-up": {
+      "name": "rounded-12",
+      "color": "secondary"
+    },
+    "btn-secondary-over": {
+      "name": "rounded-12",
+      "color": "secondaryHover"
+    },
+    "btn-secondary-down": {
+      "name": "rounded-12",
+      "color": "secondaryDown"
+    },
+    "btn-gold-up": {
+      "name": "rounded-12",
+      "color": "gold"
+    },
+    "btn-gold-over": {
+      "name": "rounded-12",
+      "color": "goldHover"
+    },
+    "btn-gold-down": {
+      "name": "rounded-12",
+      "color": "goldDown"
+    },
+    "btn-danger-up": {
+      "name": "rounded-12",
+      "color": "danger"
+    },
+    "btn-danger-over": {
+      "name": "rounded-12",
+      "color": "dangerHover"
+    },
+    "btn-danger-down": {
+      "name": "rounded-12",
+      "color": "dangerDown"
+    },
+    "badge-bg": {
+      "name": "rounded-12",
+      "color": "badge"
+    },
+    "stock-bg": {
+      "name": "rounded-12",
+      "color": "stock"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "game": {
+      "font": "ui-font",
+      "fontColor": "ink",
+      "overFontColor": "ink",
+      "downFontColor": "ink",
+      "disabledFontColor": "quiet",
+      "up": "btn-primary-up",
+      "over": "btn-primary-over",
+      "down": "btn-primary-down",
+      "disabled": "btn-primary-disabled",
+      "pressedOffsetY": -1
+    },
+    "primary": {
+      "font": "ui-font",
+      "fontColor": "ink",
+      "overFontColor": "ink",
+      "downFontColor": "ink",
+      "disabledFontColor": "quiet",
+      "up": "btn-primary-up",
+      "over": "btn-primary-over",
+      "down": "btn-primary-down",
+      "disabled": "btn-primary-disabled",
+      "pressedOffsetY": -1
+    },
+    "secondary": {
+      "font": "ui-font",
+      "fontColor": "ink",
+      "overFontColor": "ink",
+      "downFontColor": "ink",
+      "disabledFontColor": "quiet",
+      "up": "btn-secondary-up",
+      "over": "btn-secondary-over",
+      "down": "btn-secondary-down",
+      "disabled": "btn-primary-disabled",
+      "pressedOffsetY": -1
+    },
+    "gold": {
+      "font": "ui-font",
+      "fontColor": "darkText",
+      "overFontColor": "darkText",
+      "downFontColor": "darkText",
+      "disabledFontColor": "quiet",
+      "up": "btn-gold-up",
+      "over": "btn-gold-over",
+      "down": "btn-gold-down",
+      "disabled": "btn-primary-disabled",
+      "pressedOffsetY": -1
+    },
+    "danger": {
+      "font": "ui-font",
+      "fontColor": "ink",
+      "overFontColor": "ink",
+      "downFontColor": "ink",
+      "disabledFontColor": "quiet",
+      "up": "btn-danger-up",
+      "over": "btn-danger-over",
+      "down": "btn-danger-down",
+      "disabled": "btn-primary-disabled",
+      "pressedOffsetY": -1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "ui-font",
+      "fontColor": "ink"
+    },
+    "muted": {
+      "font": "ui-font",
+      "fontColor": "muted"
+    },
+    "stock-count": {
+      "font": "ui-font",
+      "fontColor": "ink",
+      "background": "stock-bg"
+    },
+    "badge": {
+      "font": "ui-font",
+      "fontColor": "badgeText",
+      "background": "badge-bg"
+    },
+    "heading": {
+      "font": "ui-font",
+      "fontColor": "gold"
+    }
+  }
+}

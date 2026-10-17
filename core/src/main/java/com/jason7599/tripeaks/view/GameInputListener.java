@@ -21,7 +21,7 @@ public class GameInputListener extends InputListener {
         }
 
         return switch (keycode) {
-            case Input.Keys.BACKSPACE -> {
+            case Input.Keys.Z, Input.Keys.BACKSPACE -> {
                 callbacks.onUndo();
                 yield true;
             }
@@ -31,5 +31,6 @@ public class GameInputListener extends InputListener {
             }
             default -> false;
         };
+
     }
 }

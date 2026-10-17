@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.jason7599.tripeaks.game.Game;
 import com.jason7599.tripeaks.game.Move;
 import com.jason7599.tripeaks.model.Slot;
+import com.jason7599.tripeaks.model.TableauStructure;
 import com.jason7599.tripeaks.view.GameView;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class GameController implements GameCallbacks {
@@ -13,10 +15,11 @@ public class GameController implements GameCallbacks {
     private Game game;
     private final GameView view;
     private List<Slot> playableSlots = List.of();
+    private Runnable onExitToMenu;
 
-    public GameController() {
+    public GameController(Runnable onExitToMenu) {
+        this.onExitToMenu = onExitToMenu;
         view = new GameView(this);
-
         newGame(MathUtils.random.nextInt());
     }
 
@@ -31,7 +34,10 @@ public class GameController implements GameCallbacks {
     private void afterChange() {
         view.setUndoable(game.canUndo());
 
-        playableSlots = game.getPlayableSlots();
+        playableSlots = game.getPlayableSlots()
+            .stream()
+            .sorted(Comparator.comparingInt(TableauStructure::gridX))
+            .toList();
         view.setKeyHints(playableSlots);
 
         if (game.isCleared()) {
@@ -97,7 +103,5 @@ public class GameController implements GameCallbacks {
     }
 
     @Override
-    public void onNewGame() {
-
-    }
+    public void onExit() { onExitToMenu.run(); }
 }

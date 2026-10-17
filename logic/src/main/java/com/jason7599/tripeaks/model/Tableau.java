@@ -68,7 +68,6 @@ public class Tableau {
         return cardSlots.keySet()
             .stream()
             .filter(this::isExposed)
-            .sorted(Comparator.comparingInt(TableauStructure::gridX))
             .toList();
     }
 }

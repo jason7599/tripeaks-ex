@@ -8,5 +8,5 @@ public interface GameCallbacks {
     void onNumKeyPressed(int number);  // on digit key pressed
     void onUndo();
     void onRestart();
-    void onNewGame();
+    void onExit();
 }

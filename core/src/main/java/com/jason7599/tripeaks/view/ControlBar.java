@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -13,47 +14,81 @@ import com.jason7599.tripeaks.controller.GameCallbacks;
 
 public class ControlBar extends Table {
 
-    private static final float BUTTON_WIDTH = 140, BUTTON_HEIGHT = 44;
-    private static final float SPACING = 100;
+    private static final float BUTTON_WIDTH = 140;
+    private static final float BUTTON_HEIGHT = 44;
+    private static final float SPACING = 88;
 
     private final TextButton undoButton;
 
     public ControlBar(GameCallbacks callbacks) {
-        setBackground(Assets.skin().getDrawable("bar"));
-        pad(16, 24, 16, 24);   // top, left, bottom, right
-        defaults().size(BUTTON_WIDTH, BUTTON_HEIGHT).space(SPACING);   // applies to every cell
+        Skin skin = Assets.skin();
 
-        undoButton = button("Undo", callbacks::onUndo);
+        setBackground(skin.getDrawable("panel-bg"));
 
-        add(button("New Game", callbacks::onNewGame));
-        add(undoButton);
-        add(button("Restart", callbacks::onRestart));
+        pad(12, 16, 12, 16);
 
-        pack();   // size the bar to fit its contents
+        defaults()
+            .size(BUTTON_WIDTH, BUTTON_HEIGHT)
+            .space(SPACING);
+
+        add(undoButton = button("Undo", "primary", callbacks::onUndo));
+        add(button("Restart", "secondary", callbacks::onRestart));
+
+        pack();
     }
 
-    private static TextButton button(String text, Runnable action) {
-        TextButton b = new TextButton(text, Assets.skin(), "game");
+    private static TextButton button(
+        String text,
+        String style,
+        Runnable action
+    ) {
+        TextButton b = new TextButton(text, Assets.skin(), style);
 
-        // ChangeListener, not ClickListener: it respects setDisabled()
         b.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeListener.ChangeEvent e, Actor actor) { action.run(); }
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!b.isDisabled()) {
+                    action.run();
+                }
+            }
         });
 
-        // cursor: hand
         b.addListener(new InputListener() {
             @Override
-            public void enter(InputEvent e, float x, float y, int pointer, Actor from) {
-                if (pointer == -1) Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+            public void enter(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                Actor from
+            ) {
+                if (pointer == -1 && !b.isDisabled()) {
+                    Gdx.graphics.setSystemCursor(
+                        Cursor.SystemCursor.Hand
+                    );
+                }
             }
+
             @Override
-            public void exit(InputEvent e, float x, float y, int pointer, Actor to) {
-                if (pointer == -1) Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+            public void exit(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                Actor to
+            ) {
+                if (pointer == -1) {
+                    Gdx.graphics.setSystemCursor(
+                        Cursor.SystemCursor.Arrow
+                    );
+                }
             }
         });
+
         return b;
     }
 
-    public void setUndoable(boolean b) { undoButton.setDisabled(!b); }
+    public void setUndoable(boolean undoable) {
+        undoButton.setDisabled(!undoable);
+    }
 }
