@@ -7,16 +7,21 @@ import com.jason7599.tripeaks.view.ui.Buttons;
 
 public class ControlBar extends Table {
 
+    private final TextButton restartButton;
     private final TextButton undoButton;
 
     public ControlBar(GameCallbacks callbacks) {
+        restartButton = Buttons.create("Restart", false, callbacks::onRestart);
         undoButton = Buttons.create("Undo", true, callbacks::onUndo);
-        TextButton restartButton = Buttons.create("Restart", false, callbacks::onRestart);
 
-        ControlBarUI.build(this, undoButton, restartButton);
+        ControlBarUI.build(this, restartButton, undoButton);
     }
 
     public void setUndoable(boolean undoable) {
         undoButton.setDisabled(!undoable);
+    }
+
+    public void setRestartable(boolean restartable) {
+        restartButton.setDisabled(!restartable);
     }
 }

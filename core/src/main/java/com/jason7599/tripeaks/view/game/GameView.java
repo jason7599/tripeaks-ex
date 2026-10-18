@@ -12,12 +12,15 @@ import com.jason7599.tripeaks.view.tableau.TableauView;
 import com.jason7599.tripeaks.view.card.CardView;
 import com.jason7599.tripeaks.view.controlbar.ControlBar;
 import com.jason7599.tripeaks.view.stock.StockView;
+import com.jason7599.tripeaks.view.ui.Animations;
+import com.jason7599.tripeaks.view.ui.Palette;
 
 import java.util.List;
 
 public class GameView extends ScreenAdapter {
 
     private final Stage stage;
+
     final TableauView tableauView;
     final CardView playerCard;
     final StockView stockView;
@@ -52,6 +55,7 @@ public class GameView extends ScreenAdapter {
 
         stockView.setCount(g.getStockCount());
 
+        controlBar.setRestartable(true);
         controlBar.setUndoable(g.canUndo());
     }
 
@@ -63,9 +67,15 @@ public class GameView extends ScreenAdapter {
 
     public void setStockCount(int count) { stockView.setCount(count); }
 
+    public void setRestartable(boolean b) { controlBar.setRestartable(b); }
+
     public void setUndoable(boolean b) { controlBar.setUndoable(b); }
 
-    public void setKeyHints(List<Slot> keyHints) { tableauView.setKeyHints(keyHints);}
+    public void setKeyHints(List<Slot> keyHints) { tableauView.setKeyHints(keyHints); }
+
+    public void showWinAnimation(Runnable onComplete) {
+        Animations.fadingMessage(stage, "CLEARED!", Palette.GOLD, 3f, onComplete);
+    }
 
     @Override
     public void show() { Gdx.input.setInputProcessor(stage); }  // stage receives clicks

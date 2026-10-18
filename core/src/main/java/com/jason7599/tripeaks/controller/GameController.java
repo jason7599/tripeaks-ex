@@ -14,8 +14,9 @@ public class GameController implements GameCallbacks {
 
     private Game game;
     private final GameView view;
+    private final Runnable onExitToMenu;
+
     private List<Slot> playableSlots = List.of();
-    private Runnable onExitToMenu;
 
     public GameController(Runnable onExitToMenu) {
         this.onExitToMenu = onExitToMenu;
@@ -32,6 +33,11 @@ public class GameController implements GameCallbacks {
     }
 
     private void afterChange() {
+        if (game.isCleared()) {
+            onCleared();
+            return;
+        }
+
         view.setUndoable(game.canUndo());
 
         playableSlots = game.getPlayableSlots()
@@ -39,14 +45,18 @@ public class GameController implements GameCallbacks {
             .sorted(Comparator.comparingInt(TableauStructure::gridX))
             .toList();
         view.setKeyHints(playableSlots);
+    }
 
-        if (game.isCleared()) {
-            System.out.println("win");
-        }
+    private void onCleared() {
+        view.setUndoable(false);
+        view.setRestartable(false);
+        view.showWinAnimation(() -> newGame(MathUtils.random.nextInt()));
     }
 
     @Override
     public void onSlotClicked(Slot s) {
+        if (game.isCleared()) return;
+
         game.tryPlaySlot(s).ifPresent((p) -> {
             view.setPlayerCard(p.card());
             view.showSlot(p.slot(), false);
@@ -59,6 +69,8 @@ public class GameController implements GameCallbacks {
 
     @Override
     public void onStockClicked() {
+        if (game.isCleared()) return;
+
         game.tryDraw().ifPresent((d) -> {
             view.setPlayerCard(d.card());
             view.setStockCount(game.getStockCount());
@@ -77,6 +89,8 @@ public class GameController implements GameCallbacks {
 
     @Override
     public void onUndo() {
+        if (game.isCleared()) return;
+
         if (!game.canUndo()) return;
 
         Move m = game.undo();
@@ -99,6 +113,8 @@ public class GameController implements GameCallbacks {
 
     @Override
     public void onRestart() {
+        if (game.isCleared()) return;
+
         newGame(game.getSeed()); // with the same seed
     }
 

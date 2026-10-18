@@ -21,8 +21,8 @@ final class ControlBarUI {
 
     static void build(
         ControlBar bar,
-        TextButton undo,
-        TextButton restart
+        TextButton restart,
+        TextButton undo
     ) {
         bar.setBackground(new BaseDrawable() {
             @Override
@@ -51,8 +51,8 @@ final class ControlBarUI {
             .size(BUTTON_WIDTH, BUTTON_HEIGHT)
             .space(SPACING);
 
-        bar.add(undo);
         bar.add(restart);
+        bar.add(undo);
 
         bar.pack();
     }
