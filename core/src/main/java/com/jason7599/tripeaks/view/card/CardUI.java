@@ -25,7 +25,6 @@ public final class CardUI {
 
     static void build(CardView v) {
         v.setSize(WIDTH, HEIGHT);
-        v.setTransform(false);
 
         Label badge = v.badge = new Label(
             "",

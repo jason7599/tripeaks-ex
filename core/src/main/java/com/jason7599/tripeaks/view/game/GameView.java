@@ -8,18 +8,16 @@ import com.jason7599.tripeaks.controller.GameInputListener;
 import com.jason7599.tripeaks.game.Game;
 import com.jason7599.tripeaks.model.Card;
 import com.jason7599.tripeaks.model.Slot;
-import com.jason7599.tripeaks.view.tableau.TableauView;
 import com.jason7599.tripeaks.view.card.CardView;
 import com.jason7599.tripeaks.view.controlbar.ControlBar;
 import com.jason7599.tripeaks.view.stock.StockView;
-import com.jason7599.tripeaks.view.ui.Animations;
-import com.jason7599.tripeaks.view.ui.Palette;
+import com.jason7599.tripeaks.view.tableau.TableauView;
 
 import java.util.List;
 
 public class GameView extends ScreenAdapter {
 
-    private final Stage stage;
+    final Stage stage;
 
     final TableauView tableauView;
     final CardView playerCard;
@@ -73,8 +71,8 @@ public class GameView extends ScreenAdapter {
 
     public void setKeyHints(List<Slot> keyHints) { tableauView.setKeyHints(keyHints); }
 
-    public void showWinAnimation(Runnable onComplete) {
-        Animations.fadingMessage(stage, "CLEARED!", Palette.GOLD, 3f, onComplete);
+    public void showClearedAnimation(Runnable onComplete) {
+        GameAnimations.showClearedAnimation(this, onComplete);
     }
 
     @Override

@@ -50,7 +50,7 @@ public class GameController implements GameCallbacks {
     private void onCleared() {
         view.setUndoable(false);
         view.setRestartable(false);
-        view.showWinAnimation(() -> newGame(MathUtils.random.nextInt()));
+        view.showClearedAnimation(() -> newGame(MathUtils.random.nextInt()));
     }
 
     @Override
