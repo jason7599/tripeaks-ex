@@ -68,8 +68,7 @@ public class GameController implements GameCallbacks {
         if (game.isCleared()) return;
 
         game.tryDraw().ifPresent((d) -> {
-            view.setPlayerCard(d.card());
-            view.setStockCount(game.getStockCount());
+            view.onCardDrawn(d, game.getStockCount());
             afterChange();
         });
     }
@@ -88,6 +87,8 @@ public class GameController implements GameCallbacks {
         if (game.isCleared()) return;
 
         if (!game.canUndo()) return;
+
+        view.cancelCardAnims();
 
         Move m = game.undo();
         switch (m) {

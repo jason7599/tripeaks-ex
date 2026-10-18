@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.game.Move;
 import com.jason7599.tripeaks.view.card.CardLayout;
@@ -19,7 +20,12 @@ final class GameAnimations {
 
     private final GameView view;
 
-    private Animation playedCardAnim;
+    // Animation for moving the card from the tableau to the player card position
+    // It also parents animations for flipping newly exposed cards
+    private Animation playAnim;
+
+    // Animation for moving a card from the stock to the player card position
+    private Animation drawAnim;
 
     GameAnimations(GameView view) {
         this.view = view;
@@ -44,76 +50,126 @@ final class GameAnimations {
         label.setScale(0.5f);
 
         new Animation(label).play(
-            () -> {
-                label.remove();
-                onFinish.run();
-            },
             Actions.parallel(
                 Actions.scaleTo(2f, 2f, 3f, Interpolation.sineOut),
                 Actions.sequence(
                     Actions.delay(CLEARED_MESSAGE_DURATION / 2),
                     Actions.fadeOut(CLEARED_MESSAGE_DURATION / 2)
                 )
-            )
+            ),
+            () -> {
+                label.remove();
+                onFinish.run();
+            }
         );
     }
-    
+
+    private static final float CARD_FLIP_DURATION = 0.2f;
     private static final float CARD_MOVE_DURATION = 0.3f;
+    private static final float CARD_DRAW_DURATION = 0.1f;
+
+    void cancelCardAnims() {
+        if (playAnim != null) {
+            playAnim.cancel();
+            playAnim = null;
+        }
+        if (drawAnim != null) {
+            drawAnim.cancel();
+            drawAnim = null;
+        }
+    }
 
     void onCardPlayed(Move.Play play) {
-        if (playedCardAnim != null) {
-            playedCardAnim.cancel();
-            playedCardAnim = null;
-        }
+        cancelCardAnims();
 
-        CardView src = view.tableauView.getCardView(play.slot());
-
-        Vector2 from = src.localToStageCoordinates(new Vector2());
+        CardView cv = view.tableauView.getCardView(play.slot());
+        Vector2 from = cv.localToStageCoordinates(new Vector2());
         Vector2 to = view.playerCard.localToStageCoordinates(new Vector2());
 
-        Image img = new Image(Assets.cards().face(play.card()));
+        // Create an image copy of the card
+        Image img = new Image(Assets.cards().face(cv.getCard()));
         img.setSize(CardLayout.WIDTH, CardLayout.HEIGHT);
         img.setPosition(from.x, from.y);
         img.setTouchable(Touchable.disabled);
         view.stage.addActor(img);
 
+        // Hide the original card
         view.tableauView.showSlot(play.slot(), false);
+
         List<Animation> exposeAnims = play.exposed()
             .stream()
-            .map((s) -> flipCard(view.tableauView.getCardView(s), true))
+            .map((s) -> {
+                CardView flip = view.tableauView.getCardView(s);
+                Animation anim = new Animation(flip);
+                anim.play(
+                    Actions.sequence(
+                        Actions.scaleTo(0f, 1f, CARD_FLIP_DURATION / 2, Interpolation.sineIn),
+                        Actions.run(() -> flip.setFaceUp(true)),
+                        Actions.scaleTo(1f, 1f, CARD_FLIP_DURATION / 2, Interpolation.sineOut)
+                    ),
+                    () -> {
+                        flip.setFaceUp(true);
+                        flip.setScale(1f); // so it doesnt get stuck
+                    }
+                );
+                return anim;
+            })
             .toList();
 
-        playedCardAnim = new Animation(img);
-        playedCardAnim.play(
-            () -> {
-                img.remove();
-                view.setPlayerCard(play.card());
-
-                for (Animation a : exposeAnims) {
-                    a.cancel();
-                }
-            },
+        playAnim = new Animation(img);
+        playAnim.play(
             Actions.moveTo(
                 to.x, to.y,
                 CARD_MOVE_DURATION,
                 Interpolation.swingIn
-            )
+            ),
+            () -> {
+                img.remove();
+                view.setPlayerCard(play.card());
+                for (Animation a : exposeAnims) {
+                    a.cancel();
+                }
+            }
         );
     }
 
-    private static final float FLIP_DURATION = 0.2f;
+    void onCardDrawn(Move.Draw draw, int stockCount) {
+        cancelCardAnims();
 
-    Animation flipCard(CardView cv, boolean faceUp) {
-        Animation anim = new Animation(cv);
-        anim.play(
+        view.stockView.setCount(stockCount);
+
+        Vector2 from = view.stockView.localToStageCoordinates(new Vector2());
+        Vector2 to = view.playerCard.localToStageCoordinates(new Vector2());
+
+        // start face down
+        Image img = new Image(Assets.cards().back());
+        img.setSize(CardLayout.WIDTH, CardLayout.HEIGHT);
+        img.setPosition(from.x, from.y);
+        view.stage.addActor(img);
+
+        drawAnim = new Animation(img);
+        drawAnim.play(
+            Actions.parallel(
+                // flip to reveal face halfway
+                Actions.sequence(
+                    Actions.scaleTo(0f, 1f, CARD_FLIP_DURATION / 2, Interpolation.sineIn),
+                    Actions.run(() ->
+                        img.setDrawable(
+                            new TextureRegionDrawable(Assets.cards().face(draw.card()))
+                        )
+                    ),
+                    Actions.scaleTo(1f, 1f, CARD_FLIP_DURATION / 2, Interpolation.sineOut)
+                ),
+                Actions.moveTo(
+                    to.x, to.y,
+                    CARD_DRAW_DURATION,
+                    Interpolation.sineIn
+                )
+            ),
             () -> {
-                cv.setFaceUp(faceUp);
-                cv.setScale(1f);
-            },
-            Actions.scaleTo(0f, 1f, FLIP_DURATION / 2, Interpolation.sineIn),
-            Actions.run(() -> cv.setFaceUp(faceUp)),
-            Actions.scaleTo(1f, 1f, FLIP_DURATION / 2, Interpolation.sineOut)
+                img.remove();
+                view.setPlayerCard(draw.card());
+            }
         );
-        return anim;
     }
 }

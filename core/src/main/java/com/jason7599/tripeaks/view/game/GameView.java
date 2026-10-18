@@ -82,6 +82,14 @@ public class GameView extends ScreenAdapter {
         anims.onCardPlayed(play);
     }
 
+    public void onCardDrawn(Move.Draw draw, int stockCount) {
+        anims.onCardDrawn(draw, stockCount);
+    }
+
+    public void cancelCardAnims() {
+        anims.cancelCardAnims();
+    }
+
     @Override
     public void show() { Gdx.input.setInputProcessor(stage); }  // stage receives clicks
 

@@ -86,14 +86,15 @@ public final class CardLayout {
             borderColor
         );
 
-        // Draw card face or back.
-        TextureRegion image = v.faceUp && v.card != null
-            ? Assets.cards().face(v.card)
-            : Assets.cards().back();
-
-        batch.draw(image, 0, 0, w, h);
+        batch.draw(getTextureRegion(v), 0, 0, w, h);
 
         // Restore batch color before Scene2D draws children.
         batch.setColor(Color.WHITE);
+    }
+
+    static TextureRegion getTextureRegion(CardView v) {
+        return v.faceUp && v.card != null
+            ? Assets.cards().face(v.card)
+            : Assets.cards().back();
     }
 }

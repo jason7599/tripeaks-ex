@@ -15,14 +15,14 @@ public class Animation {
         this.actor = actor;
     }
 
-    public void play(Runnable onFinish, Action... actions) {
+    public void play(Action action, Runnable onFinish) {
         cancel();
 
         this.onFinish = onFinish;
         isPlaying = true;
 
         actor.addAction(Actions.sequence(
-            Actions.sequence(actions),
+            action,
             Actions.run(this::finish)
         ));
     }

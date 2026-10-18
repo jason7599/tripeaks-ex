@@ -19,6 +19,8 @@ public class CardView extends Group {
 
     public void setCard(Card card) { this.card = card; }
 
+    public Card getCard() { return card; }
+
     public boolean isFaceUp() { return faceUp; }
 
     public void setFaceUp(boolean faceUp) { this.faceUp = faceUp; }
