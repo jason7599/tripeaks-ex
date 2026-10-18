@@ -50,7 +50,7 @@ public class GameController implements GameCallbacks {
     private void onCleared() {
         view.setUndoable(false);
         view.setRestartable(false);
-        view.showClearedAnimation(() -> newGame(MathUtils.random.nextInt()));
+        view.showClearedMessage(() -> newGame(MathUtils.random.nextInt()));
     }
 
     @Override
@@ -58,11 +58,7 @@ public class GameController implements GameCallbacks {
         if (game.isCleared()) return;
 
         game.tryPlaySlot(s).ifPresent((p) -> {
-            view.setPlayerCard(p.card());
-            view.showSlot(p.slot(), false);
-            for (Slot a : p.exposed()) {
-                view.setFaceUp(a, true);
-            }
+            view.onCardPlayed(p);
             afterChange();
         });
     }

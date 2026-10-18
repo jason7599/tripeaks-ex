@@ -43,6 +43,8 @@ public class TableauView extends Group {
         }
     }
 
+    public CardView getCardView(Slot s) { return cards.get(s); }
+
     public void showSlot(Slot s, boolean b) { cards.get(s).setVisible(b); }
 
     public void setFaceUp(Slot s, boolean b) { cards.get(s).setFaceUp(b); }

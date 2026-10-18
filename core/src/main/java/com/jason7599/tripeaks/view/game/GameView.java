@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.jason7599.tripeaks.controller.GameCallbacks;
 import com.jason7599.tripeaks.controller.GameInputListener;
 import com.jason7599.tripeaks.game.Game;
+import com.jason7599.tripeaks.game.Move;
 import com.jason7599.tripeaks.model.Card;
 import com.jason7599.tripeaks.model.Slot;
 import com.jason7599.tripeaks.view.card.CardView;
@@ -23,6 +24,8 @@ public class GameView extends ScreenAdapter {
     final CardView playerCard;
     final StockView stockView;
     final ControlBar controlBar;
+
+    private final GameAnimations anims;
 
     public GameView(GameCallbacks callbacks) {
         tableauView = new TableauView(callbacks::onSlotClicked);
@@ -42,14 +45,14 @@ public class GameView extends ScreenAdapter {
         stage.getRoot().addCaptureListener(
             new GameInputListener(callbacks)
         );
+
+        anims = new GameAnimations(this);
     }
 
     public void setGame(Game g) {
         tableauView.setTableau(g.getTableau());
 
-        Card pc = g.getPlayerCard();
-        playerCard.setCard(pc);
-        playerCard.setVisible(pc != null);
+        playerCard.setCard(g.getPlayerCard());
 
         stockView.setCount(g.getStockCount());
 
@@ -71,8 +74,12 @@ public class GameView extends ScreenAdapter {
 
     public void setKeyHints(List<Slot> keyHints) { tableauView.setKeyHints(keyHints); }
 
-    public void showClearedAnimation(Runnable onComplete) {
-        GameAnimations.showClearedAnimation(this, onComplete);
+    public void showClearedMessage(Runnable onFinish) {
+        anims.showClearedMessage(onFinish);
+    }
+
+    public void onCardPlayed(Move.Play play) {
+        anims.onCardPlayed(play);
     }
 
     @Override
