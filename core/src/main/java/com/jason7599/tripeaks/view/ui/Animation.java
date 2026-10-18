@@ -2,19 +2,16 @@ package com.jason7599.tripeaks.view.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Animation {
 
-    private final Stage stage;
     private final Actor actor;
 
     private Runnable onFinish;
     private boolean isPlaying;
 
-    public Animation(Stage stage, Actor actor) {
-        this.stage = stage;
+    public Animation(Actor actor) {
         this.actor = actor;
     }
 
@@ -23,8 +20,6 @@ public class Animation {
 
         this.onFinish = onFinish;
         isPlaying = true;
-
-        stage.addActor(actor);
 
         actor.addAction(Actions.sequence(
             Actions.sequence(actions),
@@ -42,7 +37,6 @@ public class Animation {
         isPlaying = false;
 
         actor.clearActions();
-        actor.remove();
 
         Runnable cb = onFinish;
         onFinish = null;

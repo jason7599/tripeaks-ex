@@ -18,7 +18,7 @@ public class TableauView extends Group {
     private final Map<Slot, CardView> cards = new HashMap<>();
 
     public TableauView(Consumer<Slot> onSlotClicked) {
-        TableauUI.build(this);
+        TableauLayout.build(this);
 
         for (Slot s : TableauStructure.ALL_SLOTS) {   // row 0 first = drawn underneath
             CardView cv = new CardView();
@@ -30,7 +30,7 @@ public class TableauView extends Group {
             });
 
             cards.put(s, cv);
-            TableauUI.addCard(this, cv, s);
+            TableauLayout.addCard(this, cv, s);
         }
     }
 

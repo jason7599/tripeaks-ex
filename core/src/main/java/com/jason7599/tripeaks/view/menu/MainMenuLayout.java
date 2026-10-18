@@ -12,7 +12,7 @@ import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.view.ui.Buttons;
 import com.jason7599.tripeaks.view.ui.Palette;
 
-final class MainMenuUI {
+final class MainMenuLayout {
     private static final float WIDTH = 1280;
     private static final float HEIGHT = 720;
 
@@ -22,7 +22,7 @@ final class MainMenuUI {
 
     private static final float TITLE_SCALE = 2.5f;
 
-    private MainMenuUI() {}
+    private MainMenuLayout() {}
 
     static Stage build(MainMenuScreen scr, Runnable onPlay) {
         Stage stage = new Stage(new FitViewport(WIDTH, HEIGHT));

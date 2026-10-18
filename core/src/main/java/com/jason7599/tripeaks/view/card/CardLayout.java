@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.jason7599.tripeaks.assets.Assets;
 
-public final class CardUI {
+public final class CardLayout {
 
-    private CardUI() {}
+    private CardLayout() {}
 
     public static final float WIDTH = 100;
     public static final float HEIGHT = 100 * 1.4f;
@@ -26,6 +25,8 @@ public final class CardUI {
 
     static void build(CardView v) {
         v.setSize(WIDTH, HEIGHT);
+        v.setTransform(true);
+        v.setOrigin(CardLayout.WIDTH / 2f, CardLayout.HEIGHT / 2f);
 
         Label badge = v.badge = new Label(
             "",
@@ -57,8 +58,6 @@ public final class CardUI {
     }
 
     static void draw(CardView v, Batch batch, float parentAlpha) {
-        float x = v.getX();
-        float y = v.getY();
         float w = v.getWidth();
         float h = v.getHeight();
 
@@ -78,8 +77,8 @@ public final class CardUI {
 
         Assets.shapes().roundedBorder(
             batch,
-            x - thickness,
-            y - thickness,
+            -thickness,
+            -thickness,
             w + thickness * 2,
             h + thickness * 2,
             (int)(RADIUS + thickness),
@@ -92,7 +91,7 @@ public final class CardUI {
             ? Assets.cards().face(v.card)
             : Assets.cards().back();
 
-        batch.draw(image, x, y, w, h);
+        batch.draw(image, 0, 0, w, h);
 
         // Restore batch color before Scene2D draws children.
         batch.setColor(Color.WHITE);

@@ -14,21 +14,25 @@ public class CardView extends Group {
     Label badge;
 
     public CardView() {
-        CardUI.build(this);
+        CardLayout.build(this);
     }
 
     public void setCard(Card card) { this.card = card; }
+
+    public boolean isFaceUp() { return faceUp; }
 
     public void setFaceUp(boolean faceUp) { this.faceUp = faceUp; }
 
     public void setHighlighted(boolean highlighted) { this.highlighted = highlighted; }
 
     /** Show a badge with this text, or hide it with null. */
-    public void setBadge(String text) { CardUI.setBadge(this, text); }
+    public void setBadge(String text) { CardLayout.setBadge(this, text); }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        CardUI.draw(this, batch, parentAlpha);
-        super.draw(batch, parentAlpha);
+        applyTransform(batch, computeTransform());
+        CardLayout.draw(this, batch, parentAlpha);
+        drawChildren(batch, parentAlpha);
+        resetTransform(batch);
     }
 }

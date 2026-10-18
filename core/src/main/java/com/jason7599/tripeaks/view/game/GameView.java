@@ -40,7 +40,7 @@ public class GameView extends ScreenAdapter {
 
         controlBar = new ControlBar(callbacks);
 
-        stage = GameUI.build(this, callbacks);
+        stage = GameLayout.build(this, callbacks);
 
         stage.getRoot().addCaptureListener(
             new GameInputListener(callbacks)
@@ -87,7 +87,7 @@ public class GameView extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        GameUI.clear();
+        GameLayout.clear();
         stage.act(delta);
         stage.draw();
     }

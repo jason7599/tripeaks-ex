@@ -14,7 +14,7 @@ public class ControlBar extends Table {
         restartButton = Buttons.create("Restart", false, callbacks::onRestart);
         undoButton = Buttons.create("Undo", true, callbacks::onUndo);
 
-        ControlBarUI.build(this, restartButton, undoButton);
+        ControlBarLayout.build(this, restartButton, undoButton);
     }
 
     public void setUndoable(boolean undoable) {

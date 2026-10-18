@@ -21,7 +21,7 @@ public class StockView extends Group {
             cards.add(new CardView());
         }
 
-        StockUI.build(this);
+        StockLayout.build(this);
 
         addListener(new ClickListener() {
             @Override

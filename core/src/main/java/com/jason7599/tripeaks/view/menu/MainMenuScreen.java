@@ -9,7 +9,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private final Stage stage;
 
     public MainMenuScreen(Runnable onPlay) {
-        stage = MainMenuUI.build(this, onPlay);
+        stage = MainMenuLayout.build(this, onPlay);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        MainMenuUI.clear();
+        MainMenuLayout.clear();
         stage.act(delta);
         stage.draw();
     }

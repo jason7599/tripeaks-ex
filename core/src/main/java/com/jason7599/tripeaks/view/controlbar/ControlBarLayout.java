@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.view.ui.Palette;
 
-final class ControlBarUI {
+final class ControlBarLayout {
 
     private static final float BUTTON_WIDTH = 140;
     private static final float BUTTON_HEIGHT = 44;
@@ -17,7 +17,7 @@ final class ControlBarUI {
 
     private static final int RADIUS = 16;
 
-    private ControlBarUI() {}
+    private ControlBarLayout() {}
 
     static void build(
         ControlBar bar,

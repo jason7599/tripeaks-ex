@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.jason7599.tripeaks.assets.Assets;
-import com.jason7599.tripeaks.view.card.CardUI;
+import com.jason7599.tripeaks.view.card.CardLayout;
 import com.jason7599.tripeaks.view.card.CardView;
 import com.jason7599.tripeaks.view.ui.Palette;
 
-final class StockUI {
+final class StockLayout {
 
     private static final float CARD_OFFSET = 2;
 
@@ -21,7 +21,7 @@ final class StockUI {
     private static final int COUNT_LABEL_RADIUS = 12;
     private static final int COUNT_BORDER = 2;
 
-    private StockUI() {}
+    private StockLayout() {}
 
     static void build(StockView v) {
         int size = v.cards.size();
@@ -33,10 +33,10 @@ final class StockUI {
             v.addActor(card);
         }
 
-        float width = CardUI.WIDTH
+        float width = CardLayout.WIDTH
             + Math.max(0, size - 1) * CARD_OFFSET;
 
-        v.setSize(width, CardUI.HEIGHT);
+        v.setSize(width, CardLayout.HEIGHT);
 
         // Create count label.
         v.countLabel = new Label(
@@ -56,8 +56,8 @@ final class StockUI {
 
         count.setSize(COUNT_LABEL_WIDTH, COUNT_LABEL_HEIGHT);
         count.setPosition(
-            (CardUI.WIDTH - COUNT_LABEL_WIDTH) / 2f,
-            (CardUI.HEIGHT - COUNT_LABEL_HEIGHT) / 2f
+            (CardLayout.WIDTH - COUNT_LABEL_WIDTH) / 2f,
+            (CardLayout.HEIGHT - COUNT_LABEL_HEIGHT) / 2f
         );
 
         count.pad(6);

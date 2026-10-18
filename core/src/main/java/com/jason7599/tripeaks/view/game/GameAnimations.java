@@ -8,11 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.jason7599.tripeaks.assets.Assets;
 import com.jason7599.tripeaks.game.Move;
-import com.jason7599.tripeaks.model.Slot;
-import com.jason7599.tripeaks.view.card.CardUI;
+import com.jason7599.tripeaks.view.card.CardLayout;
 import com.jason7599.tripeaks.view.card.CardView;
 import com.jason7599.tripeaks.view.ui.Animation;
 import com.jason7599.tripeaks.view.ui.Palette;
+
+import java.util.List;
 
 final class GameAnimations {
 
@@ -32,6 +33,8 @@ final class GameAnimations {
             new Label.LabelStyle(Assets.font(), Palette.GOLD)
         );
 
+        view.stage.addActor(label);
+
         label.pack();
         label.setOrigin(label.getWidth() / 2f, label.getHeight() / 2f);
         label.setPosition(
@@ -40,8 +43,11 @@ final class GameAnimations {
         );
         label.setScale(0.5f);
 
-        new Animation(view.stage, label).play(
-            onFinish,
+        new Animation(label).play(
+            () -> {
+                label.remove();
+                onFinish.run();
+            },
             Actions.parallel(
                 Actions.scaleTo(2f, 2f, 3f, Interpolation.sineOut),
                 Actions.sequence(
@@ -51,7 +57,7 @@ final class GameAnimations {
             )
         );
     }
-
+    
     private static final float CARD_MOVE_DURATION = 0.3f;
 
     void onCardPlayed(Move.Play play) {
@@ -66,23 +72,48 @@ final class GameAnimations {
         Vector2 to = view.playerCard.localToStageCoordinates(new Vector2());
 
         Image img = new Image(Assets.cards().face(play.card()));
-        img.setSize(CardUI.WIDTH, CardUI.HEIGHT);
+        img.setSize(CardLayout.WIDTH, CardLayout.HEIGHT);
         img.setPosition(from.x, from.y);
         img.setTouchable(Touchable.disabled);
+        view.stage.addActor(img);
 
         view.tableauView.showSlot(play.slot(), false);
-        for (Slot s : play.exposed()) {
-            view.tableauView.setFaceUp(s, true);
-        }
+        List<Animation> exposeAnims = play.exposed()
+            .stream()
+            .map((s) -> flipCard(view.tableauView.getCardView(s), true))
+            .toList();
 
-        playedCardAnim = new Animation(view.stage, img);
+        playedCardAnim = new Animation(img);
         playedCardAnim.play(
-            () -> view.setPlayerCard(play.card()),
+            () -> {
+                img.remove();
+                view.setPlayerCard(play.card());
+
+                for (Animation a : exposeAnims) {
+                    a.cancel();
+                }
+            },
             Actions.moveTo(
                 to.x, to.y,
                 CARD_MOVE_DURATION,
                 Interpolation.swingIn
             )
         );
+    }
+
+    private static final float FLIP_DURATION = 0.2f;
+
+    Animation flipCard(CardView cv, boolean faceUp) {
+        Animation anim = new Animation(cv);
+        anim.play(
+            () -> {
+                cv.setFaceUp(faceUp);
+                cv.setScale(1f);
+            },
+            Actions.scaleTo(0f, 1f, FLIP_DURATION / 2, Interpolation.sineIn),
+            Actions.run(() -> cv.setFaceUp(faceUp)),
+            Actions.scaleTo(1f, 1f, FLIP_DURATION / 2, Interpolation.sineOut)
+        );
+        return anim;
     }
 }

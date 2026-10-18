@@ -8,7 +8,7 @@ import com.jason7599.tripeaks.controller.GameCallbacks;
 import com.jason7599.tripeaks.view.ui.Buttons;
 import com.jason7599.tripeaks.view.ui.Palette;
 
-final class GameUI {
+final class GameLayout {
 
     private static final float WIDTH = 1280;
     private static final float HEIGHT = 720;
@@ -24,7 +24,7 @@ final class GameUI {
     private static final float EXIT_HEIGHT = 42;
     private static final float EXIT_MARGIN = 24;
 
-    private GameUI() {}
+    private GameLayout() {}
 
     static Stage build(GameView v, GameCallbacks cb) {
         Stage stage = new Stage(new FitViewport(WIDTH, HEIGHT));
